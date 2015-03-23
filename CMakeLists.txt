@@ -278,6 +278,7 @@ find_package(PLplot)
 
 add_subdirectory(toolboxes)
 add_subdirectory(apps)
+add_subdirectory(network)
 
 if (ACE_FOUND AND ISMRMRD_FOUND AND FFTW3_FOUND AND HDF5_FOUND)
   add_subdirectory(gadgets)
