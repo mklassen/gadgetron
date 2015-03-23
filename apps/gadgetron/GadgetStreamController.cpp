@@ -6,6 +6,7 @@
 #include "GadgetStreamController.h"
 #include "GadgetContainerMessage.h"
 #include "GadgetMessageInterface.h"
+#include "ConfigurationReader.h"
 #include "GadgetronConnector.h"
 #include "Gadget.h"
 #include "EndGadget.h"
@@ -49,13 +50,13 @@ int GadgetStreamController::open (void)
 
   //We have to have these basic types to be able to receive configuration file for stream
   readers_.insert(GADGET_MESSAGE_CONFIG_FILE,
-		  new GadgetMessageConfigFileReader());
+        new GadgetNetworkMessageConfigFileReader());
 
   readers_.insert(GADGET_MESSAGE_CONFIG_SCRIPT,
-		  new GadgetMessageScriptReader());
+        new GadgetNetworkMessageScriptReader());
 
   readers_.insert(GADGET_MESSAGE_PARAMETER_SCRIPT,
-		  new GadgetMessageScriptReader());
+        new GadgetNetworkMessageScriptReader());
 
   GadgetModule *head = 0;
   GadgetModule *tail = 0;
@@ -84,11 +85,13 @@ int GadgetStreamController::svc(void)
 {
   while (true) {
     GadgetMessageIdentifier id;
+    ACE_UINT16 msgType;
     ssize_t recv_cnt = 0;
-    if ((recv_cnt = peer().recv_n (&id, sizeof(GadgetMessageIdentifier))) <= 0) {
+    if ((recv_cnt = peer().recv_n (&msgType, sizeof(msgType))) <= 0) {
       GERROR("GadgetStreamController, unable to read message identifier\n");
       return -1;
     }
+    id.id = ACE_NTOHS(msgType);
 
     if (id.id == GADGET_MESSAGE_CLOSE) {
       stream_.close(1); //Shutdown gadgets and wait for them
