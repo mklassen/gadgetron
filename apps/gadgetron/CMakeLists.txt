@@ -14,6 +14,7 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/toolboxes/core/cpu/hostutils
   ${CMAKE_SOURCE_DIR}/toolboxes/core/cpu/image
   ${CMAKE_SOURCE_DIR}/toolboxes/core/cpu/algorithm
+  ${CMAKE_SOURCE_DIR}/network/gadgetron/messages
   ${Boost_INCLUDE_DIR}
   ${ACE_INCLUDE_DIR}
   )
@@ -87,6 +88,7 @@ target_link_libraries(gadgetron_gadgetbase
   gadgetron_toolbox_gadgettools
   gadgetron_toolbox_cloudbus
   gadgetron_toolbox_log
+  cfmm_messages
 )
 
 if (GPERFTOOLS_PROFILER)
