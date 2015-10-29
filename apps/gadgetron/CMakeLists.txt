@@ -18,8 +18,6 @@ if (CUDA_FOUND)
   include_directories(${CUDA_INCLUDE_DIRS})
 endif(CUDA_FOUND)
 
-target_link_libraries(-nostartfiles)
-
 add_executable(gadgetron 
   GadgetServerAcceptor.h
   GadgetServerAcceptor.cpp 
