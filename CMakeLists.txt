@@ -259,9 +259,10 @@ if (PythonLibs_FOUND)
   string(REPLACE "." ";" PYTHON_VERSION_MAJOR ${PYTHONLIBS_VERSION_STRING})
   list(GET PYTHON_VERSION_MAJOR 0 PYVER)
   add_definitions(-DPYVER=${PYVER})
+  
 endif (PythonLibs_FOUND)
 
-#find_package(NumPy)
+find_package(NumPy)
 find_package(GMatlab)
 if (MATLAB_FOUND)
   ADD_DEFINITIONS(-DUSE_MATLAB)
