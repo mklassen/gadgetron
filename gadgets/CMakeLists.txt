@@ -33,10 +33,6 @@ elseif (ARMADILLO_FOUND)
     MESSAGE("Armadillo not found, NOT compiling EPI Gadgets")
 endif (ARMADILLO_FOUND)
 
-if (MKL_FOUND OR ARMADILLO_FOUND)
-    add_subdirectory(gtPlus)
-endif (MKL_FOUND OR ARMADILLO_FOUND)
-
 if (CUDA_FOUND)
   message("Cuda found, compiling gpu accelerated gadgets")
   add_subdirectory(pmri)
@@ -49,7 +45,6 @@ else (CUDA_FOUND)
 endif(CUDA_FOUND)
 
 add_subdirectory(grappa)
-add_subdirectory(distributed)
 
 if (MATLAB_FOUND)
   message("Compiling MATLAB gadgets")
