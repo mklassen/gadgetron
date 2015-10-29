@@ -19,6 +19,7 @@ if (CUDA_FOUND)
 endif(CUDA_FOUND)
 
 add_executable(gadgetron 
+  main.cpp
   GadgetServerAcceptor.h
   GadgetServerAcceptor.cpp 
   GadgetStreamController.h
@@ -34,7 +35,7 @@ target_link_libraries(gadgetron
   gadgetron_gadgetbase
   gadgetron_toolbox_log
   gadgetron_toolbox_gadgettools 
-  optimized ${ACE_LIBRARIES} debug ${ACE_DEBUG_LIBRARY} -nostartfiles
+  optimized ${ACE_LIBRARIES} debug ${ACE_DEBUG_LIBRARY}
  )
 
 find_package(PythonLibs)
