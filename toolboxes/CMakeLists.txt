@@ -30,7 +30,6 @@ add_subdirectory(registration)
 
 IF (ACE_FOUND)
   add_subdirectory(gadgettools)
-  add_subdirectory(cloudbus)
 ENDIF()
 
 IF (FFTW3_FOUND AND ISMRMRD_FOUND)
