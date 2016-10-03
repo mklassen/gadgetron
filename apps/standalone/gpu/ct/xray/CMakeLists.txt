@@ -35,8 +35,10 @@ include_directories(
     ${ISMRMRD_INCLUDE_DIR}
 )
 
-link_directories(${Boost_LIBRARY_DIR} ${HDF5_LIBRARY_DIRS})
-link_libraries(${HDF5_LIBRARIES})
+link_directories(${Boost_LIBRARY_DIR})
+link_libraries(${HDF5_LIBRARIES}
+               ${HDF5_HL_LIBRARIES}
+               )
 
 add_executable(CBCT_reconstruct_FDK_3d CBCT_reconstruct_FDK_3d.cpp)
 target_link_libraries(CBCT_reconstruct_FDK_3d gadgetron_toolbox_gpuxray gadgetron_toolbox_cpucore gadgetron_toolbox_cpucore_math gadgetron_toolbox_gpucore gadgetron_toolbox_hostutils ${CUDA_LIBRARIES} ${Boost_LIBRARIES} ${HDF5_CXX_HL_LIBRARIES})
