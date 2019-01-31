@@ -14,7 +14,8 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/toolboxes/core/cpu/hostutils
   ${CMAKE_SOURCE_DIR}/toolboxes/core/cpu/image
   ${CMAKE_SOURCE_DIR}/toolboxes/core/cpu/algorithm
-  ${CMAKE_SOURCE_DIR}/network/gadgetron/messages
+  ${CMAKE_SOURCE_DIR}/network/messages
+  ${CMAKE_SOURCE_DIR}/network/communication/protocol
   ${Boost_INCLUDE_DIR}
   ${ACE_INCLUDE_DIR}
   )
