@@ -78,11 +78,11 @@ if ( WIN32 )
         set(PYTHONLIBS_FOUND 0)
     endif()
 else ()
-    find_path(PYTHON3_PATH bin/python3 HINTS ENV{PYTHON3_PATH} PATHS /usr /usr/ /usr/local)
+    find_path(PYTHON3_PATH bin/python3 HINTS $ENV{PYTHON3_PATH} PATHS /usr /usr/ /usr/local)
 #
 
-
-    find_path(PYTHON_INCLUDE_DIR3 NAMES python3.7/patchlevel.h python3.7m/patchlevel.h python3.6/patchlevel.h python3.6m/patchlevel.h python3.5/patchlevel.h python3.5m/patchlevel.h  PATHS /usr/include /usr/local/include )
+    find_path(PYTHON_INCLUDE_DIR3 NAMES python3.7/patchlevel.h python3.7m/patchlevel.h python3.6/patchlevel.h python3.6m/patchlevel.h python3.5/patchlevel.h python3.5m/patchlevel.h
+          HINTS ${PYTHON3_PATH}/include PATHS /usr/include /usr/local/include )
         if (EXISTS ${PYTHON_INCLUDE_DIR3}/python3.7m/patchlevel.h)
         set(PYTHON_INCLUDE_DIRS ${PYTHON_INCLUDE_DIR3}/python3.7m)
     elseif (EXISTS ${PYTHON_INCLUDE_DIR3}/python3.6m/patchlevel.h)
@@ -101,7 +101,7 @@ else ()
     endif()
 
     string(REGEX MATCH "[0-9].[0-9]" PYTHON_MAJOR_VERSION ${PYTHONLIBS_VERSION_STRING})
-    find_library(PYTHON_LIBRARIES libpython${PYTHON_MAJOR_VERSION}m.so)
+    find_library(PYTHON_LIBRARIES libpython${PYTHON_MAJOR_VERSION}m${CMAKE_SHARED_LIBRARY_SUFFIX} HINTS ${PYTHON3_PATH}/lib)
     set(PYTHON_LIBRARY ${PYTHON_LIBRARIES})
     UNSET(PYTHON_EXECUTABLE CACHE)
     find_file(PYTHON_EXECUTABLE python3 PATHS /usr/bin /bin /usr/local/bin)
