@@ -84,7 +84,8 @@ int GadgetStreamController::svc(void)
       GDEBUG("Closing writer task\n");
       this->writer_task_.close(1);
       GDEBUG("Writer task closed\n");
-      continue;
+      // Stream has closed we are finished, break out of loop
+      return 0;
     }
 
     GadgetMessageReader* r = readers_.find(id.id);

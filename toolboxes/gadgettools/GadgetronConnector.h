@@ -49,15 +49,21 @@ namespace Gadgetron{
     virtual int close(unsigned long flags)
     {
       int rval = 0;
-      if (flags == 1) {
-	ACE_Message_Block *hangup = new ACE_Message_Block();
-	hangup->msg_type( ACE_Message_Block::MB_HANGUP );
-	if (this->putq(hangup) == -1) {
-	  hangup->release();
-	  GERROR("WriterTask::close, putq\n");
-	  return -1;
-	}
-	rval = this->wait();
+      if (flags == 1 && this->thr_count() > 0) {
+        auto *hangup = new GadgetContainerMessage<GadgetMessageIdentifier>();
+        hangup->getObjectPtr()->id = GADGET_MESSAGE_CLOSE;
+        if (this->putq(hangup) == -1) {
+          hangup->release();
+          GERROR("WriterTask::close, putq\n");
+
+          // flush will deactivate the message queue and cause the next getq() to fail
+          // forcing the termination of the svc(). Some messages may get lost, but there
+          // is already a terminal issue since we could not put anything on the queue
+          this->flush();
+        }
+
+        // Wait for the thread to complete
+        rval = this->wait();
       }
       return rval;
     }
