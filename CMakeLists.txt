@@ -3,6 +3,7 @@ foreach(p
     CMP0025 # CMake 3.0 Compiler id for Apple Clang is now ``AppleClang``.
     CMP0042 # CMake 3.0 ``MACOSX_RPATH`` is enabled by default.
     CMP0046 # CMake 3.0 Error on non-existent dependency in add_dependencies.
+    CMP0048 # CMake 3.0 The ``project()`` command manages VERSION variables.
     CMP0054 # CMake 3.1 Only interpret ``if()`` arguments as variables or keywords when unquoted.
     CMP0056 # CMake 3.2 Honor link flags in ``try_compile()`` source-file signature.
     CMP0058 # CMake 3.3 Ninja requires custom command byproducts to be explicit.
