@@ -4,6 +4,8 @@ if (BUILD_TESTING)
   add_subdirectory(test)
 endif()
 
+include_directories($<TARGET_PROPERTY:pugixml,INTERFACE_INCLUDE_DIRECTORIES>)
+
 add_executable(gadgetron
         main.cpp
         Server.cpp
@@ -82,7 +84,9 @@ target_link_libraries(gadgetron
         Boost::program_options
         ${CURL_LIBRARIES}
         GTBLAS
-        ${CMAKE_DL_LIBS})
+        ${CMAKE_DL_LIBS}
+        pugixml
+        )
 
 target_include_directories(gadgetron
         PRIVATE
