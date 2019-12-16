@@ -7,6 +7,7 @@ foreach(p
     CMP0054 # CMake 3.1 Only interpret ``if()`` arguments as variables or keywords when unquoted.
     CMP0056 # CMake 3.2 Honor link flags in ``try_compile()`` source-file signature.
     CMP0058 # CMake 3.3 Ninja requires custom command byproducts to be explicit.
+    CMP0074
     )
   if(POLICY ${p})
     cmake_policy(SET ${p} NEW)
