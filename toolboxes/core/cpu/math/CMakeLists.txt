@@ -14,6 +14,9 @@ set(cpucore_math_header_files
 set(cpucore_math_src_files 
     hoNDArray_linalg.cpp )
 
+if (APPLE)
+   include_directories(/usr/local/opt/openblas/include)
+endif ()
 
     set(cpucore_math_header_files 
         ${cpucore_math_header_files}
