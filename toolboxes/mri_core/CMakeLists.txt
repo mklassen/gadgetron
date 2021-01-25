@@ -79,8 +79,8 @@ if (Boost_PYTHON3_FOUND AND PYTHONLIBS_FOUND AND NUMPY_FOUND)
 
     include_directories(
       ${CMAKE_SOURCE_DIR}/toolboxes/python
-      ${PYTHON_INCLUDE_PATH}
-      ${NUMPY_INCLUDE_DIRS}
+      ${Python3_INCLUDE_DIRS}
+      ${Python3_NumPy_INCLUDE_DIRS}
       ${Boost_INCLUDE_DIR}
       )
 
@@ -98,7 +98,7 @@ if (Boost_PYTHON3_FOUND AND PYTHONLIBS_FOUND AND NUMPY_FOUND)
                 gadgetron_toolbox_image_analyze_io 
                 gadgetron_toolbox_python 
                 gadgetron_toolbox_mri_core 
-                ${PYTHON_LIBRARIES}
+                ${Python3_LIBRARIES}
                 ${Boost_LIBRARIES}
                 ${MKL_LIBRARIES}
                 )

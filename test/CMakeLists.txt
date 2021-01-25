@@ -39,7 +39,7 @@ include_directories(
   ${ACE_INCLUDE_DIR}
   ${ISMRMRD_INCLUDE_DIR}
   ${FFTW3_INCLUDE_DIR}
-  ${PYTHON_INCLUDE_PATH}
+  ${Python3_INCLUDE_DIRS}
   ${NUMPY_INCLUDE_DIRS}
   )
 
@@ -123,7 +123,7 @@ if (PYTHONLIBS_FOUND)
     target_link_libraries(test_all 
         gadgetron_toolbox_python
         ${ISMRMRD_LIBRARIES}
-        ${PYTHON_LIBRARIES}
+        ${Python3_LIBRARIES}
         )
 endif ()
 

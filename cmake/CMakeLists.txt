@@ -9,10 +9,8 @@ install(FILES
     FindGMatlab.cmake
     FindGperftools.cmake
     FindMKL.cmake
-    FindNumPy.cmake
     FindOctave.cmake
     FindPLplot.cmake
-    FindPython3.cmake
     FindZFP.cmake
     FindBART.cmake
     FindCBLAS.cmake

@@ -231,8 +231,8 @@ if (Boost_PYTHON3_FOUND AND PYTHONLIBS_FOUND AND NUMPY_FOUND)
     message("Build python generic gadgets ... ")
     include_directories(
       ${CMAKE_SOURCE_DIR}/toolboxes/python
-      ${PYTHON_INCLUDE_PATH}
-      ${NUMPY_INCLUDE_DIRS}
+      ${Python3_INCLUDE_DIRS}
+      ${Python3_NumPy_INCLUDE_DIRS}
       )
 
       set( gadgetron_mricore_header_files ${gadgetron_mricore_header_files} GenericReconCartesianGrappaAIGadget.h)
@@ -281,7 +281,7 @@ endif ()
 if (Boost_PYTHON3_FOUND AND PYTHONLIBS_FOUND AND NUMPY_FOUND)
    target_link_libraries(gadgetron_mricore 
                         gadgetron_toolbox_python 
-                        ${PYTHON_LIBRARIES} )
+                        ${Python3_LIBRARIES} )
 endif ()
 
 install(FILES 

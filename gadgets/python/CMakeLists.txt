@@ -15,8 +15,8 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/gadgets/mri_core
   ${CMAKE_SOURCE_DIR}/toolboxes/python
   ${CMAKE_SOURCE_DIR}/toolboxes/mri_core
-  ${PYTHON_INCLUDE_PATH}
-  ${NUMPY_INCLUDE_DIRS}
+  ${Python3_INCLUDE_DIRS}
+  ${Python3_NumPy_INCLUDE_DIRS}
   ${Boost_INCLUDE_DIR}
   )
 
@@ -110,7 +110,7 @@ target_link_libraries(gadgetron_python
     ${ISMRMRD_LIBRARIES}
     optimized ${ACE_LIBRARIES}
     debug ${ACE_DEBUG_LIBRARY}
-    ${PYTHON_LIBRARIES}
+    ${Python3_LIBRARIES}
     ${Boost_LIBRARIES}
     ${MKL_LIBRARIES})
 
@@ -121,7 +121,7 @@ target_link_libraries(GadgetronPythonMRI
     ${ISMRMRD_LIBRARIES}
     optimized ${ACE_LIBRARIES}
     debug ${ACE_DEBUG_LIBRARY}
-    ${PYTHON_LIBRARIES}
+    ${Python3_LIBRARIES}
     ${Boost_LIBRARIES}
     ${MKL_LIBRARIES})
 
