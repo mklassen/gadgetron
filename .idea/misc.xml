@@ -4,6 +4,7 @@
   <component name="CidrRootsConfiguration">
     <excludeRoots>
       <file path="$PROJECT_DIR$/ace-ismrmrd-toolkit.git" />
+      <file path="$PROJECT_DIR$/network/communication/cmake-build-debug" />
       <file path="$PROJECT_DIR$/network/network.xcodeproj" />
       <file path="$PROJECT_DIR$/network/tests/cmake-build-debug" />
       <file path="$PROJECT_DIR$/network/tests/googletest" />
