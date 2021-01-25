@@ -24,10 +24,10 @@ namespace Gadgetron {
         return (*this);
     }
 
-    bool operator!=(const NDArrayViewIterator &other) {
+    bool operator!=(const NDArrayViewIterator &other) const {
         return !(*this == other);
     }
-    bool operator==(const NDArrayViewIterator &other) {
+    bool operator==(const NDArrayViewIterator &other) const {
         return (&other.base_array == &base_array) && (other.base_size == base_size) &&
                (other.current_view == current_view);
     }

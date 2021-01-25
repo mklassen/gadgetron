@@ -144,12 +144,12 @@ namespace Gadgetron {
             _imag = tmp._imag;
         }
 
-        __inline__ __host__ __device__  bool operator==(const complext<T> &comp2) {
+        __inline__ __host__ __device__  bool operator==(const complext<T> &comp2) const {
 
             return _real == comp2._real && _imag == comp2._imag;
         }
 
-        __inline__ __host__ __device__  bool operator!=(const complext<T> &comp2) {
+        __inline__ __host__ __device__  bool operator!=(const complext<T> &comp2) const {
 
             return not(*this == comp2);
         }

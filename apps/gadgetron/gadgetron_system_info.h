@@ -15,6 +15,8 @@
 #include <sys/sysctl.h>
 #endif
 
+#include <ostream>
+
 #if USE_CUDA
 // CUDA-C includes
 #include <cuda.h>

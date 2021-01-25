@@ -91,7 +91,7 @@ namespace Gadgetron {
                 dst[i] = extract_functions.at(image_type)(src[i]);
             }
 
-            if (real_imag_offset != 0 && (image_type == IMTYPE::ISMRMRD_IMTYPE_REAL || image_type == IMTYPE::ISMRMRD_IMTYPE_IMAG)) {
+            if (real_imag_offset.value() != 0.0f && (image_type == IMTYPE::ISMRMRD_IMTYPE_REAL || image_type == IMTYPE::ISMRMRD_IMTYPE_IMAG)) {
                 *cm2->getObjectPtr() += float(real_imag_offset);
             }
 

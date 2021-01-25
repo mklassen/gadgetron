@@ -35,11 +35,11 @@ namespace Gadgetron {
             if (fp) {
                 char *p = NULL, *e; size_t n;
                 while ((getline(&p, &n, fp) > 0) && p) {
-                    if (p = strstr(p, "inet ")) {
+                    if ((p = strstr(p, "inet "))) {
                         p += 5;
-                        if (p = strchr(p, ':')) {
+                        if ((p = strchr(p, ':'))) {
                             ++p;
-                            if (e = strchr(p, ' ')) {
+                            if ((e = strchr(p, ' '))) {
                                 *e = '\0';
                                 ip_list.push_back(std::string(p));
                             }

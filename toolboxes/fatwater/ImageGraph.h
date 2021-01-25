@@ -31,7 +31,7 @@ namespace Gadgetron {
         constexpr static char edges_per_vertex = 2 * D + 2; // 8 per vertex + source & sink
         constexpr static char source_offset = 2 * D;
         constexpr static char sink_offset = 2 * D + 1;
-        static Gadgetron::vector_td<int, D> index_to_offset[2 * D];
+        static inline Gadgetron::vector_td<int, D> index_to_offset[2 * D];
         using vertex_descriptor = size_t;
 
         using vertices_size_type = size_t;
