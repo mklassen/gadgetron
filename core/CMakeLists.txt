@@ -50,6 +50,7 @@ install(FILES
         Context.h
         Gadget.h
         Reader.h
+        GadgetronSlotContainer.h
         Types.h
         Types.hpp
         TypeTraits.h

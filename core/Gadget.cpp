@@ -14,6 +14,15 @@ namespace Gadgetron {
     }
     void Gadget::set_context(const Core::Context& input_context) { this->context = input_context;}
 
+    void Gadget::flush()
+    {
+        std::list<std::unique_ptr<ACE_Message_Block>> queue = std::list<std::unique_ptr<ACE_Message_Block>>();
+    }
+    int Gadget::wait()
+    {
+        // i dont know, come back later
+    }
+
     LegacyGadgetNode::LegacyGadgetNode(std::unique_ptr<Gadget> gadget_ptr,
         const Core::Context& context,
         const std::unordered_map<std::string, std::string>& props)
