@@ -6,14 +6,13 @@
 #include <boost/shared_ptr.hpp>
 
 #include "GadgetContainerMessage.h"
-#include "../clients/gadgetron_ismrmrd_client/gadgetron_ismrmrd_client.cpp"
 #include "log.h"
 #include <initializer_list>
 #include <mutex>
 #include "Channel.h"
 #include <stdexcept>
 #include <ismrmrd/xml.h>
-#include "LegacyACE.h"
+#include "LegacyACE.h" // remove after changing message block in ace submodule
 #include "Node.h"
 #include "Context.h"
 #include "GadgetronSlotContainer.h"
@@ -22,6 +21,10 @@
 
 #define GADGET_FAIL -1
 #define GADGET_OK    0
+#define GADGET_MESSAGE_CONFIG_FILE   1
+#define GADGET_MESSAGE_CONFIG_SCRIPT 2
+#define GADGET_MESSAGE_PARAMETER_SCRIPT   3
+#define GADGET_MESSAGE_CLOSE 4
 
 
 namespace Gadgetron {
@@ -76,20 +79,20 @@ namespace Gadgetron {
         std::string reference_gadget_;
         std::string reference_property_;
 
-        ACE_SOCK_Stream* socket_;
-
-        class GadgetMessageWriter
-        {
-          public:
-            virtual ~GadgetMessageWriter() {}
-
-            /**
-              Function must be implemented to write a specific message.
-            */
-            virtual int write(ACE_SOCK_Stream* stream, ACE_Message_Block* mb) = 0;
-        };
-
-        GadgetronSlotContainer<GadgetMessageWriter> writers_;
+//        ACE_SOCK_Stream* socket_;
+//
+//        class GadgetMessageWriter
+//        {
+//          public:
+//            virtual ~GadgetMessageWriter() {}
+//
+//            /**
+//              Function must be implemented to write a specific message.
+//            */
+//            virtual int write(ACE_SOCK_Stream* stream, ACE_Message_Block* mb) = 0;
+//        };
+//
+//        GadgetronSlotContainer<GadgetMessageWriter> writers_;
     };
 
     class ChannelAdaptor {
@@ -179,11 +182,17 @@ namespace Gadgetron {
 
         void flush();
         int wait();
+
+        struct GadgetMessageIdentifier
+        {
+            uint16_t id;
+        };
+
         virtual int close(unsigned long flags = 1)
         {
             int rval = 0;
 
-            if (this->thr_count() > 0)
+            if (this->thr_count() > 0) // still need to update this part so no error occurs
             {
                 auto *hangup = new GadgetContainerMessage<GadgetMessageIdentifier>();
                 hangup->getObjectPtr()->id = GADGET_MESSAGE_CLOSE;
@@ -198,52 +207,53 @@ namespace Gadgetron {
             return rval;
         }
 
-        virtual int svc(void)
-        {
-            ACE_Message_Block *mb = 0;
-            ACE_Time_Value nowait (ACE_OS::gettimeofday ());
-
-
-            //Send a package if we have one
-            while (this->getq (mb) != -1) {
-                GadgetContainerMessage<GadgetMessageIdentifier>* mid =
-                    AsContainerMessage<GadgetMessageIdentifier>(mb);
-
-
-                if (!mid) {
-                    GERROR("Invalid message on output queue\n");
-                    mb->release();
-                    return -1;
-                }
-
-                // shutdown message?
-                if (mid->getObjectPtr()->id == GADGET_MESSAGE_CLOSE) {
-                    GadgetMessageIdentifier msg(*(mid->getObjectPtr()));
-                    msg.id = ACE_HTONS(msg.id);
-                    socket_->send_n(reinterpret_cast<const char *>(&msg), sizeof(msg));
-                    mid->release();
-                    return 0;
-                }
-
-                GadgetMessageWriter* w = writers_.find(mid->getObjectPtr()->id);
-
-                if (!w) {
-                    GERROR("Unrecognized Message ID received: %d\n",mid->getObjectPtr()->id);
-                    mb->release();
-                    return -1;
-                }
-
-                if (w->write(socket_,mb->cont()) < 0) {
-                    GERROR("Failed to write message to Gadgetron\n");
-                    mb->release ();
-                    return -1;
-                }
-
-                mb->release();
-            }
-
-            return 0;
-        }
+// figure out the svc related changes later
+//        virtual int svc(void)
+//        {
+//            ACE_Message_Block *mb = 0;
+//            ACE_Time_Value nowait (ACE_OS::gettimeofday ());
+//
+//
+//            //Send a package if we have one
+//            while (this->getq (mb) != -1) {
+//                GadgetContainerMessage<GadgetMessageIdentifier>* mid =
+//                    AsContainerMessage<GadgetMessageIdentifier>(mb);
+//
+//
+//                if (!mid) {
+//                    GERROR("Invalid message on output queue\n");
+//                    mb->release();
+//                    return -1;
+//                }
+//
+//                // shutdown message?
+//                if (mid->getObjectPtr()->id == GADGET_MESSAGE_CLOSE) {
+//                    GadgetMessageIdentifier msg(*(mid->getObjectPtr()));
+//                    msg.id = ACE_HTONS(msg.id);
+//                    socket_->send_n(reinterpret_cast<const char *>(&msg), sizeof(msg));
+//                    mid->release();
+//                    return 0;
+//                }
+//
+//                GadgetMessageWriter* w = writers_.find(mid->getObjectPtr()->id);
+//
+//                if (!w) {
+//                    GERROR("Unrecognized Message ID received: %d\n",mid->getObjectPtr()->id);
+//                    mb->release();
+//                    return -1;
+//                }
+//
+//                if (w->write(socket_,mb->cont()) < 0) {
+//                    GERROR("Failed to write message to Gadgetron\n");
+//                    mb->release ();
+//                    return -1;
+//                }
+//
+//                mb->release();
+//            }
+//
+//            return 0;
+//        }
 
         void set_context(const Core::Context& context);
 
