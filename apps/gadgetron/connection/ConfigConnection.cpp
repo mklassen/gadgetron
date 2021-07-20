@@ -63,8 +63,8 @@ namespace {
     class ConfigReferenceHandler : public ConfigHandler {
     public:
         ConfigReferenceHandler(
-            std::function<void(Config)> &&callback,
-            const StreamContext::Paths &paths
+                std::function<void(Config)> &&callback,
+                const StreamContext::Paths &paths
         ) : ConfigHandler(callback), paths(paths) {}
 
         void handle(std::istream &stream, Gadgetron::Core::OutputChannel&) override {
