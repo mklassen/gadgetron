@@ -1,8 +1,6 @@
 
 #include <boost/asio.hpp>
 
-#include "../clients/gadgetron_ismrmrd_client/gadgetron_ismrmrd_client.cpp"
-
 #include <Context.h>
 #include "GadgetronSlotContainer.h"
 #include "log.h"
@@ -10,15 +8,21 @@
 #include "Gadget.h"
 #include "../../network/messages/ConfigurationReader.h" // gotta find out how to include this file using submodule
 #include "Connection.h"
-#include "Gadget.h"
 #include "Server.h"
 #include "connection/SocketStreamBuf.h"
 #include "system_info.h"
-#include "LegacyACE.h"
+#include "LegacyACE.h" // remove after changing ace submodule
 
 using namespace boost::filesystem;
 using namespace Gadgetron::Server;
 
+class GadgetMessageReader
+{
+  public:
+    virtual ~GadgetMessageReader() {}
+
+    virtual ACE_MESSAGE_BLOCK* read(ACE_SOCK_STREAM* stream) = 0; // replace these parts after updating others
+};
 
 Server::Server(
         const boost::program_options::variables_map &args
@@ -61,80 +65,81 @@ void Server::serve() {
                     new GadgetNetworkMessageScriptReader());
 }
 
-int svc() // not sure about this one
-{
-        while (true) {
-        GadgetMessageIdentifier id;
-        uint16_t msgType;
-        ssize_t recv_cnt = 0;
-        if ((recv_cnt = peer().recv_n (&msgType, sizeof(msgType))) <= 0) {
-            GERROR("GadgetStreamController, unable to read message identifier\n");
-            return -1;
-        }
-        id.id = ACE_NTOHS(msgType);
-
-        if (id.id == GADGET_MESSAGE_CLOSE) {
-            stream_.close(1); //Shutdown gadgets and wait for them
-            GDEBUG("Stream closed\n");
-            GDEBUG("Closing writer task\n");
-            this->writer_task_.close(1);
-            GDEBUG("Writer task closed\n");
-            // Stream has closed we are finished, break out of loop
-            return 0;
-        }
-
-        GadgetMessageReader* r = readers_.find(id.id);
-
-        if (!r) {
-            GERROR("Unrecognized Message ID received: %d\n", id.id);
-            return GADGET_FAIL;
-        }
-
-        ACE_Message_Block* mb = r->read(&peer());
-
-        if (!mb) {
-            GERROR("GadgetMessageReader returned null pointer\n");
-            return GADGET_FAIL;
-        }
-
-        //We need to handle some special cases to make sure that we can get a stream set up.
-        if (id.id == GADGET_MESSAGE_CONFIG_FILE) {
-            Gadgetron::GadgetContainerMessage<GadgetMessageConfigurationFile>* cfgm =
-                AsContainerMessage<GadgetMessageConfigurationFile>(mb);
-
-            if (!cfgm) {
-                GERROR("Failed to cast message block to configuration file\n");
-                mb->release();
-                return GADGET_FAIL;
-            } else {
-                if (this->configure_from_file(std::string(cfgm->getObjectPtr()->configuration_file)) != GADGET_OK) {
-                    GERROR("GadgetStream configuration failed\n");
-                    mb->release();
-                    return GADGET_FAIL;
-                } else {
-                    mb->release();
-                    continue;
-                }
-            }
-        } else if (id.id == GADGET_MESSAGE_CONFIG_SCRIPT) {
-            std::string xml_config(mb->rd_ptr(), mb->length());
-            std::stringstream stream(xml_config, std::ios::in);
-            if (this->configure(stream) != GADGET_OK) {
-                GERROR("GadgetStream configuration failed\n");
-                mb->release();
-                return GADGET_FAIL;
-            } else {
-                mb->release();
-                continue;
-            }
-        }
-
-        ACE_Time_Value wait = ACE_OS::gettimeofday() + ACE_Time_Value(0,10000); //10ms from now
-        if (stream_.put(mb) == -1) {
-            GERROR("Failed to put stuff on stream, too long wait, %d\n",  ACE_OS::last_error () ==  EWOULDBLOCK);
-            mb->release();
-            return GADGET_FAIL;
-        }
-    }
-    return GADGET_OK;
-}
+// figure out svc changes later
+//int svc() 
+//{
+//        while (true) {
+//        GadgetMessageIdentifier id;
+//        uint16_t msgType;
+//        ssize_t recv_cnt = 0;
+//        if ((recv_cnt = peer().recv_n (&msgType, sizeof(msgType))) <= 0) {
+//            GERROR("GadgetStreamController, unable to read message identifier\n");
+//            return -1;
+//        }
+//        id.id = ACE_NTOHS(msgType);
+//
+//        if (id.id == GADGET_MESSAGE_CLOSE) {
+//            stream_.close(1); //Shutdown gadgets and wait for them
+//            GDEBUG("Stream closed\n");
+//            GDEBUG("Closing writer task\n");
+//            this->writer_task_.close(1);
+//            GDEBUG("Writer task closed\n");
+//            // Stream has closed we are finished, break out of loop
+//            return 0;
+//        }
+//
+//        GadgetMessageReader* r = readers_.find(id.id);
+//
+//        if (!r) {
+//            GERROR("Unrecognized Message ID received: %d\n", id.id);
+//            return GADGET_FAIL;
+//        }
+//
+//        ACE_Message_Block* mb = r->read(&peer());
+//
+//        if (!mb) {
+//            GERROR("GadgetMessageReader returned null pointer\n");
+//            return GADGET_FAIL;
+//        }
+//
+//        //We need to handle some special cases to make sure that we can get a stream set up.
+//        if (id.id == GADGET_MESSAGE_CONFIG_FILE) {
+//            Gadgetron::GadgetContainerMessage<GadgetMessageConfigurationFile>* cfgm =
+//                AsContainerMessage<GadgetMessageConfigurationFile>(mb);
+//
+//            if (!cfgm) {
+//                GERROR("Failed to cast message block to configuration file\n");
+//                mb->release();
+//                return GADGET_FAIL;
+//            } else {
+//                if (this->configure_from_file(std::string(cfgm->getObjectPtr()->configuration_file)) != GADGET_OK) {
+//                    GERROR("GadgetStream configuration failed\n");
+//                    mb->release();
+//                    return GADGET_FAIL;
+//                } else {
+//                    mb->release();
+//                    continue;
+//                }
+//            }
+//        } else if (id.id == GADGET_MESSAGE_CONFIG_SCRIPT) {
+//            std::string xml_config(mb->rd_ptr(), mb->length());
+//            std::stringstream stream(xml_config, std::ios::in);
+//            if (this->configure(stream) != GADGET_OK) {
+//                GERROR("GadgetStream configuration failed\n");
+//                mb->release();
+//                return GADGET_FAIL;
+//            } else {
+//                mb->release();
+//                continue;
+//            }
+//        }
+//
+//        ACE_Time_Value wait = ACE_OS::gettimeofday() + ACE_Time_Value(0,10000); //10ms from now
+//        if (stream_.put(mb) == -1) {
+//            GERROR("Failed to put stuff on stream, too long wait, %d\n",  ACE_OS::last_error () ==  EWOULDBLOCK);
+//            mb->release();
+//            return GADGET_FAIL;
+//        }
+//    }
+//    return GADGET_OK;
+//}
