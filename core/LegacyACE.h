@@ -98,7 +98,7 @@ namespace Gadgetron {
 
             int next(ACE_Message_Block *&);
 
-    private:
+        private:
 
             decltype(queue.begin()) list_iterator;
             decltype(queue.begin()) list_end;
