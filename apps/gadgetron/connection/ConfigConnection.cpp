@@ -68,7 +68,7 @@ namespace {
         ) : ConfigHandler(callback), paths(paths) {}
 
         void handle(std::istream &stream, Gadgetron::Core::OutputChannel&) override {
-            boost::filesystem::path filename = paths.gadgetron_home / GADGETRON_CONFIG_PATH / read_filename_from_stream(stream);
+            boost::filesystem::path filename = paths.gadgetron_home / GADGETRON_CONFIG_PATH / read_filename_from_stream(stream); // seems to accommodate for allowing absolute paths to configuration files
 
             GDEBUG_STREAM("Reading config file: " << filename);
 
