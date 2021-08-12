@@ -19,7 +19,7 @@ namespace Gadgetron {
         std::list<std::unique_ptr<ACE_Message_Block>> queue = std::list<std::unique_ptr<ACE_Message_Block>>();
     }
 
-    int Gadget::wait()
+    int Gadget::wait() 
     {
         auto pid = fork();
         if (pid == 0)
