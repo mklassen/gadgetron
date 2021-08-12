@@ -7,22 +7,26 @@
 
 #include "Gadget.h"
 #include "../../network/messages/ConfigurationReader.h" // gotta find out how to include this file using submodule
+#include "../../ace-ismrmrd-toolkit/protocol/MessageBlock.h" // correct later
+#include "../../ace-ismrmrd-toolkit/protocol/SockStream.h" // correct later
 #include "Connection.h"
 #include "Server.h"
+#include "Reader.h"
 #include "connection/SocketStreamBuf.h"
 #include "system_info.h"
-#include "LegacyACE.h" // remove after changing ace submodule
+#include "LegacyACE.h"
 
 using namespace boost::filesystem;
 using namespace Gadgetron::Server;
+using namespace network;
 
-class GadgetMessageReader
-{
-  public:
-    virtual ~GadgetMessageReader() {}
-
-    virtual ACE_MESSAGE_BLOCK* read(ACE_SOCK_STREAM* stream) = 0; // replace these parts after updating others
-};
+//class GadgetMessageReader
+//{
+//  public:
+//    virtual ~GadgetMessageReader() = default;
+//
+//    virtual Message_Block* read(Sock_Stream* stream) = 0; // replace these parts after updating others
+//};
 
 Server::Server(
         const boost::program_options::variables_map &args
@@ -54,7 +58,7 @@ void Server::serve() {
     }
 
 
-    GadgetronSlotContainer<GadgetMessageReader> readers_;
+    GadgetronSlotContainer<Core::Reader> readers_;
 
     readers_.insert(GADGET_MESSAGE_CONFIG_FILE,
                     new GadgetNetworkMessageConfigFileReader());
@@ -65,8 +69,7 @@ void Server::serve() {
                     new GadgetNetworkMessageScriptReader());
 }
 
-// figure out svc changes later
-//int svc() 
+//int svc()
 //{
 //        while (true) {
 //        GadgetMessageIdentifier id;
