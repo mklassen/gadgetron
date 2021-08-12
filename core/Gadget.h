@@ -12,12 +12,13 @@
 #include "Channel.h"
 #include <stdexcept>
 #include <ismrmrd/xml.h>
-#include "LegacyACE.h" // remove after changing message block in ace submodule
+#include "LegacyACE.h"
 #include "Node.h"
 #include "Context.h"
 #include "GadgetronSlotContainer.h"
 #include <boost/dll/alias.hpp>
 #include <sys/wait.h>
+#include <thread>
 
 #define GADGET_FAIL -1
 #define GADGET_OK    0
@@ -181,18 +182,20 @@ namespace Gadgetron {
         }
 
         void flush();
-        int wait();
 
         struct GadgetMessageIdentifier
         {
             uint16_t id;
         };
 
+        size_t thr_count();
+        int wait();
+
         virtual int close(unsigned long flags = 1)
         {
             int rval = 0;
 
-            if (this->thr_count() > 0) // still need to update this part so no error occurs
+            if (this->thr_count() > 0)
             {
                 auto *hangup = new GadgetContainerMessage<GadgetMessageIdentifier>();
                 hangup->getObjectPtr()->id = GADGET_MESSAGE_CLOSE;
@@ -207,7 +210,6 @@ namespace Gadgetron {
             return rval;
         }
 
-// figure out the svc related changes later
 //        virtual int svc(void)
 //        {
 //            ACE_Message_Block *mb = 0;
