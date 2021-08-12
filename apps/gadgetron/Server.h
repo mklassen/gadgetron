@@ -11,7 +11,6 @@ namespace Gadgetron::Server {
     public:
         Server(const boost::program_options::variables_map &args);
         void serve();
-//        int svc(void); // hope this prototype works
 
     private:
         const boost::program_options::variables_map &args;
