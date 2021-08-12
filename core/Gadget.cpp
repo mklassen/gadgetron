@@ -18,10 +18,27 @@ namespace Gadgetron {
     {
         std::list<std::unique_ptr<ACE_Message_Block>> queue = std::list<std::unique_ptr<ACE_Message_Block>>();
     }
+
     int Gadget::wait()
     {
-        // i dont know, come back later
+        auto pid = fork();
+        if (pid == 0)
+        {
+            std::exit(0);
+        }
+        else
+        {
+            pid = wait();
+        }
+        return 0;
     }
+
+    size_t Gadget::thr_count()
+    {
+        return std::thread::hardware_concurrency(); // best i've got for now
+    }
+
+
 
     LegacyGadgetNode::LegacyGadgetNode(std::unique_ptr<Gadget> gadget_ptr,
         const Core::Context& context,
