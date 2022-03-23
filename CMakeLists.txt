@@ -372,6 +372,8 @@ find_package(GLEW)
 find_package(GLUT)
 find_package(Qt4 4.6)
 find_package(PLplot)
+find_package(ZFP REQUIRED)
+find_package(cereal REQUIRED)
 
 option(BUILD_TESTING "Enable test building" On)
 if (BUILD_TESTING)
