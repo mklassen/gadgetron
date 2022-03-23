@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeWorkspace" PROJECT_DIR="$PROJECT_DIR$" />
+  <component name="CidrRootsConfiguration">
+    <excludeRoots>
+      <file path="$PROJECT_DIR$/ace-ismrmrd-toolkit.git" />
+      <file path="$PROJECT_DIR$/network/network.xcodeproj" />
+      <file path="$PROJECT_DIR$/network/tests/cmake-build-debug" />
+      <file path="$PROJECT_DIR$/network/tests/googletest" />
+    </excludeRoots>
+  </component>
+  <component name="JavaScriptSettings">
+    <option name="languageLevel" value="ES6" />
+  </component>
+  <component name="NodePackageJsonFileManager">
+    <packageJsonPaths />
+  </component>
+</project>
