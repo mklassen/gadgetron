@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="CFMM" pattern="file[gadgetron]:network//*&amp;&amp;!file[gadgetron]:network/communication//*&amp;&amp;!file[gadgetron]:network/protocol//*&amp;&amp;!file[gadgetron]:network/tests/data/*" />
+</component>
