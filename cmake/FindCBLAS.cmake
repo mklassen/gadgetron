@@ -22,11 +22,15 @@ else ()
             message("OMP OPENBLAS FOUND")
             set(CBLAS_LIBRARIES ${OPENBLAS_OMP_LIBRARIES})
         endif()
+
+        cmake_path(GET BLAS_openblas_LIBRARY PARENT_PATH CBLAS_BASE_DIR)
+        cmake_path(GET CBLAS_BASE_DIR PARENT_PATH CBLAS_BASE_DIR)
+
         find_path(CBLAS_BASE_INCLUDE_DIR openblas/cblas.h
-                PATHS /usr/include /usr/local/include)
+                PATHS /usr/include /usr/local/include ${CBLAS_BASE_DIR}/include)
         if (NOT CBLAS_BASE_INCLUDE_DIR)
             find_path(CBLAS_INCLUDE_DIR cblas.h
-                    PATHS /usr/include /usr/local/include)
+                    PATHS /usr/include /usr/local/include ${CBLAS_BASE_DIR}/include)
         else ()
             set(CBLAS_INCLUDE_DIR ${CBLAS_BASE_INCLUDE_DIR}/openblas)
         endif ()
