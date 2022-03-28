@@ -4,7 +4,11 @@
 #include <cmath>
 #include <numeric>
 #include <set>
+#ifdef USE_OMP
 #include <omp.h>
+#else
+int omp_get_max_threads() { return 1; }
+#endif
 
 #include "hoMatrix.h"
 #include "hoNDArray_elemwise.h"
