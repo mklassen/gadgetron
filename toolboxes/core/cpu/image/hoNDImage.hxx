@@ -1591,6 +1591,9 @@ namespace Gadgetron
         this->image_to_world(&ind[0], &coord[0]);
     }
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Warray-bounds"
+
     template <typename T, unsigned int D> 
     inline void hoNDImage<T, D>::image_to_world(coord_type x, coord_type& cx) const
     {
@@ -2466,6 +2469,8 @@ namespace Gadgetron
 
         world2image = rotation;
     }
+
+#pragma GCC diagnostic pop
 
     template <typename T, unsigned int D> 
     inline void hoNDImage<T, D>::set_world_to_image_matrix(const hoMatrix<coord_type>& world2image)

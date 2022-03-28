@@ -22,6 +22,9 @@
 #include <numeric>
 #include "vector_td_utilities.h"
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundefined-var-template"
+
 namespace Gadgetron {
 
     template<unsigned int D = 2>
@@ -270,6 +273,7 @@ namespace Gadgetron {
     };
 }
 
+#pragma clang diagnostic pop
 
 
 

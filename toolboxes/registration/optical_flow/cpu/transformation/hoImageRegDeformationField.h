@@ -10,6 +10,9 @@
 
 #include "hoImageRegNonParametricTransformation.h"
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Warray-bounds"
+
 namespace Gadgetron {
 
     /// deformation field is defined as hoNDImage
@@ -989,4 +992,5 @@ namespace Gadgetron {
         return std::string("hoImageRegDeformationField");
     }
 }
+#pragma GCC diagnostic pop
 #endif // hoImageRegDeformationField_H_
