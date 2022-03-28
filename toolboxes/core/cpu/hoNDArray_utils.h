@@ -968,7 +968,7 @@ namespace Gadgetron {
     for( long long idx=0; idx < num_elements*num_batches; idx++ ){
 
       const long long frame_idx = idx/num_elements;
-      const uint64d co_out = idx_to_co<D>( idx-frame_idx*num_elements, matrix_size_out );
+      const uint64d co_out = idx_to_co<D>( static_cast<uint64_t>(idx-frame_idx*num_elements), matrix_size_out );
       uint64d co_in = co_out/uint64_t(2);
 
       const size_t in_idx = co_to_idx<D>(co_in, matrix_size_in)+frame_idx*prod(matrix_size_in);
