@@ -273,7 +273,7 @@ namespace Gadgetron {
                 return {header, data, meta};
             };
 
-            auto output = ranges::transform_view(recon_cycle_time, image_generator) | to<std::vector>;
+            auto output = recon_cycle_time | ranges::views::transform(image_generator) | to< std::vector>;
 
 
             if ((interp_method == PhysioInterpolationMethod::Spline) || (mode != PhysioInterpolationMode::complete)) {
