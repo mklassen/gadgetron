@@ -1205,15 +1205,15 @@ namespace Gadgetron {
         GadgetContainerMessage< hoNDArray< hoMRImage<ValueType, 3> > >* m2 = nullptr;
         GadgetContainerMessage< ISMRMRD::ImageHeader >* m3 = nullptr;
 
-        if (m1 = AsContainerMessage<Image2DBufferType>(mb))
+        if ((m1 = AsContainerMessage<Image2DBufferType>(mb)))
         {
             return this->process2D(m1);
         }
-        else if (m2 = AsContainerMessage<Image3DBufferType>(mb))
+        else if ((m2 = AsContainerMessage<Image3DBufferType>(mb)))
         {
             return this->process3D(m2);
         }
-        else if (m3 = AsContainerMessage<ISMRMRD::ImageHeader>(mb))
+        else if ((m3 = AsContainerMessage<ISMRMRD::ImageHeader>(mb)))
         {
             return this->process_image(m3);
         }
