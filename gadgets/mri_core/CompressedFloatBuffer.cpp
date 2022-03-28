@@ -21,6 +21,8 @@ CompressedFloatBuffer* CompressedFloatBuffer::createCompressedBuffer(Instruction
             return new CompressedFloatBufferSse41;
         }
         break;
+    default:
+        break;
     }
 
     return new CompressedFloatBuffer;
