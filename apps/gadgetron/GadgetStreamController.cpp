@@ -341,7 +341,10 @@ int GadgetStreamController::configure(std::istream& config_file_stream)
 	{
 	  std::string pname(p->name);
 	  std::string pval(p->value);
-	  GINFO("Setting parameter %s = %s\n", pname.c_str(),pval.c_str());
+     
+     std::vector<std::string> noprint = {"password"};
+     if (std::find(noprint.begin(), noprint.end(), pname) == noprint.end())
+	     GINFO("Setting parameter %s = %s\n", pname.c_str(),pval.c_str());
 	  g->set_parameter(pname.c_str(),pval.c_str(),false);
 	}
       
