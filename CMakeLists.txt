@@ -6,6 +6,7 @@ else ()
     cmake_policy(VERSION 3.12)
 endif()
 project(GADGETRON LANGUAGES CXX C)
+set(Boost_NO_WARN_NEW_VERSIONS ON)
 
 find_program(CCACHE_FOUND ccache)
 if (CCACHE_FOUND)
