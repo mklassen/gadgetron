@@ -4,9 +4,14 @@
 #include <sstream>
 #include <iostream>
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wc++11-narrowing"
+
 #include "boost/process.hpp"
 #include "boost/property_tree/ptree.hpp"
 #include "boost/property_tree/json_parser.hpp"
+
+#pragma clang diagnostic pop
 
 namespace pt = boost::property_tree;
 namespace bp = boost::process;
