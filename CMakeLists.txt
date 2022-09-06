@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 2.8.7) #Currently targeting to TRAVIS CI cmake version from 2011
 foreach(p
     CMP0025 # CMake 3.0 Compiler id for Apple Clang is now ``AppleClang``.
+    CMP0028 # CMake 3.0 Double colon in target name means ``ALIAS`` or ``IMPORTED`` target.
     CMP0042 # CMake 3.0 ``MACOSX_RPATH`` is enabled by default.
     CMP0046 # CMake 3.0 Error on non-existent dependency in add_dependencies.
     CMP0048 # CMake 3.0 The ``project()`` command manages VERSION variables.
@@ -16,6 +17,7 @@ foreach(p
 endforeach()
 project(GADGETRON)
 #SET(CMAKE_VERBOSE_MAKEFILE TRUE)
+SET(Boost_NO_WARN_NEW_VERSIONS ON)
 
 set(CMAKE_SKIP_BUILD_RPATH FALSE)
 set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
