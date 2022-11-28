@@ -320,7 +320,7 @@ else ()
     pkg_check_modules(PC_lapacke lapacke)
 
     string(COMPARE EQUAL ${BLA_VENDOR} "OpenBLAS" USING_OPENBLAS)
-    if (USING_OPENBLAS)
+    if ((USING_OPENBLAS) AND (NOT APPLE))
         message("OpenBLAS detected; setting max number of OpenBLAS pthreads to one.")
         add_definitions(-DFORCE_LIMIT_OPENBLAS_NUM_THREADS)
     endif()
