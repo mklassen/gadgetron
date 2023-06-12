@@ -14,15 +14,15 @@
       <option name="CLASS_CONSTRUCTOR_INIT_LIST_COMMA_ON_NEXT_LINE" value="true" />
       <option name="CLASS_CONSTRUCTOR_INIT_LIST_NEW_LINE_BEFORE_COLON" value="1" />
     </Objective-C>
-    <Objective-C-extensions>
+    <clangFormatSettings>
+      <option name="ENABLED" value="true" />
+    </clangFormatSettings>
+    <files>
       <extensions>
         <pair source="cpp" header="h" fileNamingConvention="PASCAL_CASE" />
         <pair source="c" header="h" fileNamingConvention="PASCAL_CASE" />
       </extensions>
-    </Objective-C-extensions>
-    <clangFormatSettings>
-      <option name="ENABLED" value="true" />
-    </clangFormatSettings>
+    </files>
     <codeStyleSettings language="CMake">
       <indentOptions>
         <option name="INDENT_SIZE" value="3" />
