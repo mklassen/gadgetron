@@ -9,6 +9,7 @@
 #include "Connection.h"
 #include "connection/SocketStreamBuf.h"
 #include "system_info.h"
+#include "connection/converting_stream_from_socket.hpp"
 
 using namespace boost::filesystem;
 using namespace Gadgetron::Server;
@@ -37,6 +38,7 @@ Server::Server(
 
         GINFO_STREAM("Accepted connection from: " << socket->remote_endpoint().address());
 
-        Connection::handle(paths, args, storage_address, Gadgetron::Connection::stream_from_socket(std::move(socket)));
+        Connection::handle(paths, args, storage_address,
+                           Gadgetron::Connection::converting_stream_from_socket(std::move(socket), executor));
     }
 }

@@ -1,5 +1,7 @@
 configure_file(gadgetron_config.in gadgetron_config.h)
 
+find_package(connection)
+
 if (BUILD_TESTING)
   add_subdirectory(test)
 endif()
@@ -82,6 +84,7 @@ target_link_libraries(gadgetron
         Boost::system
         Boost::filesystem
         Boost::program_options
+        connection::connection
         ${CURL_LIBRARIES}
         GTBLAS
         ${CMAKE_DL_LIBS}

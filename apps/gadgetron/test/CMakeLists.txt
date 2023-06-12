@@ -14,11 +14,15 @@ if(BUILD_TESTING)
    add_executable(server_tests
            storage_test.cpp
            socket_test.cpp
+           serialize_deserialize_test.cpp
            ../connection/SocketStreamBuf.cpp)
 
    target_link_libraries(server_tests
           storage
           gadgetron_core
+         gadgetron_core_readers
+         gadgetron_core_writers
+
           gadgetron_toolbox_log
           GTest::GTest
           GTest::Main
