@@ -173,8 +173,11 @@ namespace Gadgetron {
         }
 
         void print_properties() {
+            std::vector<std::string> no_print = {"password"};
             for (std::vector<GadgetPropertyBase *>::iterator it = properties_.begin(); it != properties_.end(); it++) {
-                GDEBUG("Parameter with name: %s\n", (*it)->name());
+                if (std::find(no_print.begin(), no_print.end(), (*it)->name()) == no_print.end()) {
+                    GDEBUG("Parameter with name: %s\n", (*it)->name());
+                }
             }
         }
 
