@@ -7,7 +7,6 @@ install(FILES
     FindMKL.cmake
     FindOctave.cmake
     FindPLplot.cmake
-    FindZFP.cmake
     FindCBLAS.cmake
     FindLAPACKE.cmake
     FindPugiXML.cmake
