@@ -6,6 +6,7 @@
 #include "vector_td_utilities.h"
 #include "ImageIOAnalyze.h"
 #include "GadgetronTimer.h"
+#include "NFFT.hpp"
 
 using namespace Gadgetron;
 using testing::Types;
