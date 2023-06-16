@@ -11,10 +11,23 @@ endif()
 if (WIN32)
     set(GT_DICOM_LIBRARIES cmr i2d ijg8 dcmfg)
 else ()
+    if(NOT TARGET DCMTK::dcmdata)
+       add_library(DCMTK::dcmdata INTERFACE IMPORTED)
+       target_link_libraries(DCMTK::dcmdata INTERFACE dcmdata)
+    endif()
+    if(NOT TARGET DCMTK::ofstd)
+       add_library(DCMTK::ofstd INTERFACE IMPORTED)
+       target_link_libraries(DCMTK::ofstd INTERFACE ofstd)
+    endif()
+    if(NOT TARGET DCMTK::oflog)
+       add_library(DCMTK::oflog INTERFACE IMPORTED)
+       target_link_libraries(DCMTK::oflog INTERFACE oflog)
+    endif()
+
     set(GT_DICOM_LIBRARIES
-            dcmdata
-            oflog
-            ofstd
+            DCMTK::dcmdata
+            DCMTK::oflog
+            DCMTK::ofstd
         z m pthread)
     if (APPLE)
         list(APPEND GT_DICOM_LIBRARIES iconv)
