@@ -21,13 +21,13 @@ void fill_random(std::vector<float> &v, float mean = 0.0f, float sigma = 1.0f, i
 
 double mean(std::vector<float> &v)
 {
-    return std::accumulate(v.begin(), v.end(), 0.0, [](double &a, float &b){ return a + b;}) / v.size();
+    return std::accumulate(v.begin(), v.end(), 0.0, [](double const &a, float const &b){ return a + b;}) / v.size();
 }
 
 double variance(std::vector<float> &v)
 {
     auto m = mean(v);
-    return std::accumulate(v.begin(), v.end(), 0.0, [&m](double &a, float &b) { return a + (b - m)*(b - m); }) / (v.size() -1);
+    return std::accumulate(v.begin(), v.end(), 0.0, [&m](double const &a, float const &b) { return a + (b - m)*(b - m); }) / (v.size() -1);
 }
 
 // We are gonna parametrize the tests with seed, mean, sigma
