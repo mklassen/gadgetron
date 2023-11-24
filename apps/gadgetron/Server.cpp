@@ -27,6 +27,8 @@ Server::Server(
     GINFO_STREAM("Gadgetron working directory: " << paths.working_folder);
 
     boost::asio::io_context executor;
+    auto wg = boost::asio::make_work_guard(executor);
+    auto t = std::thread([&executor](){executor.run();});
     boost::asio::ip::tcp::endpoint local(Info::tcp_protocol(), args["port"].as<unsigned short>());
     boost::asio::ip::tcp::acceptor acceptor(executor, local);
 
