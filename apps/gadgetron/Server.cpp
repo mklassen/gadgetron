@@ -9,7 +9,6 @@
 #include "Connection.h"
 #include "connection/SocketStreamBuf.h"
 #include "system_info.h"
-#include "converting_stream.hpp"
 
 using namespace boost::filesystem;
 using namespace Gadgetron::Server;
@@ -27,20 +26,19 @@ Server::Server(
     GINFO_STREAM("Gadgetron working directory: " << paths.working_folder);
 
     boost::asio::io_context executor;
-    auto wg = boost::asio::make_work_guard(executor);
-    auto t = std::thread([&executor](){executor.run();});
     boost::asio::ip::tcp::endpoint local(Info::tcp_protocol(), args["port"].as<unsigned short>());
     boost::asio::ip::tcp::acceptor acceptor(executor, local);
 
     acceptor.set_option(boost::asio::socket_base::reuse_address(true));
 
+
     while(true) {
         auto socket = std::make_unique<boost::asio::ip::tcp::socket>(executor);
+
         acceptor.accept(*socket);
 
         GINFO_STREAM("Accepted connection from: " << socket->remote_endpoint().address());
 
-        Connection::handle(paths, args, storage_address, Gadgetron::Connection::converting_stream_from_socket
-                           (std::move(socket), executor));
+        Connection::handle(paths, args, storage_address, std::move(socket));
     }
 }
