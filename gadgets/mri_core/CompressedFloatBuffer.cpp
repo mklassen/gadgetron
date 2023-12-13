@@ -9,17 +9,22 @@ CompressedFloatBuffer* CompressedFloatBuffer::createCompressedBuffer(Instruction
     switch (instructionSet)
     {
     case InstructionSet::Native:
+#ifdef SUPPORT_AVX2
     case InstructionSet::Avx2:
         if (CPU_supports_AVX2())
         {
             return new CompressedFloatBufferAvx2;
         }
         // FALLTHROUGH
+#endif
+#ifdef SUPPORT_SSE41
     case InstructionSet::Sse41:
         if (CPU_supports_SSE41())
         {
             return new CompressedFloatBufferSse41;
         }
+#endif
+    default:
         break;
     }
 

@@ -177,6 +177,7 @@ namespace NHLBI {
         }
     };
 
+#ifdef SUPPORT_SSE41
     class CompressedFloatBufferSse41 : public CompressedFloatBuffer
     {
     public:
@@ -184,7 +185,9 @@ namespace NHLBI {
 
         virtual void compress(std::vector<float>& d, float tolerance = -1.0f, uint8_t precision_bits = 16);
     };
+#endif
 
+#ifdef SUPPORT_AVX2
     class CompressedFloatBufferAvx2 : public CompressedFloatBuffer
     {
     public:
@@ -194,6 +197,7 @@ namespace NHLBI {
 
         virtual void decompress(float* dptr);
     };
+#endif
 }
 
 #endif //NHLBICOMPRESSION

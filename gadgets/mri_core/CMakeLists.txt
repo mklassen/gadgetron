@@ -6,11 +6,21 @@ find_package(ZFP)
 
 include_directories(${HDF5_INCLUDE_DIRS} ${CMAKE_SOURCE_DIR}/core/io)
 
-if(MSVC)
-  set_source_files_properties(CompressedFloatBufferAvx2.cpp PROPERTIES COMPILE_FLAGS "/arch:AVX2")
-else()
-  set_source_files_properties(CompressedFloatBufferSse41.cpp PROPERTIES COMPILE_FLAGS "-msse4.1")
-  set_source_files_properties(CompressedFloatBufferAvx2.cpp PROPERTIES COMPILE_FLAGS "-mavx2 -mfma")
+if(${CMAKE_SYSTEM_PROCESSOR} MATCHES ("x86_64|i386"))
+  if(MSVC)
+    set_source_files_properties(CompressedFloatBufferAvx2.cpp PROPERTIES COMPILE_FLAGS "/arch:AVX2")
+  else()
+    set_source_files_properties(CompressedFloatBufferSse41.cpp PROPERTIES COMPILE_FLAGS "-msse4.1")
+    set_source_files_properties(CompressedFloatBufferAvx2.cpp PROPERTIES COMPILE_FLAGS "-mavx2 -mfma")
+  endif()
+  set(cpu_specific_headers
+        cpuisa.h
+  )
+  set(cpu_specific_sources
+        cpuisa.cpp
+        CompressedFloatBufferAvx2.cpp
+        CompressedFloatBufferSse41.cpp
+  )
 endif()
 
 
@@ -47,7 +57,6 @@ set(gadgetron_mricore_header_files
         ImageFinishGadget.h
         dependencyquery/NoiseSummaryGadget.h
         NHLBICompression.h
-    	cpuisa.h
         ImageAccumulatorGadget.h
         writers/GadgetIsmrmrdWriter.h
         ImageResizingGadget.h
@@ -59,6 +68,7 @@ set(gadgetron_mricore_header_files
         FlagTriggerGadget.h
         ImageIndexGadget.h
         IsmrmrdDumpGadget.h
+        ${cpu_specific_headers}
         )
 
 set(gadgetron_mricore_src_files
@@ -92,9 +102,6 @@ set(gadgetron_mricore_src_files
         SimpleReconGadget.cpp
         ImageSortGadget.cpp
         CompressedFloatBuffer.cpp
-        CompressedFloatBufferSse41.cpp
-        CompressedFloatBufferAvx2.cpp
-        cpuisa.cpp
         dependencyquery/NoiseSummaryGadget.cpp
         ImageAccumulatorGadget.cpp
         writers/GadgetIsmrmrdWriter.cpp
@@ -106,6 +113,7 @@ set(gadgetron_mricore_src_files
         FlagTriggerGadget.cpp
         ImageIndexGadget.cpp
         IsmrmrdDumpGadget.cpp
+        ${cpu_specific_sources}
         )
 
 set(gadgetron_mricore_config_files
@@ -214,6 +222,10 @@ add_library(gadgetron_mricore SHARED
     DenoiseGadget.cpp DenoiseGadget.h)
 
 set_target_properties(gadgetron_mricore PROPERTIES VERSION ${GADGETRON_VERSION_STRING} SOVERSION ${GADGETRON_SOVERSION})
+
+if(${CMAKE_SYSTEM_PROCESSOR} MATCHES ("x86_64|i386"))
+   target_compile_definitions(gadgetron_mricore PUBLIC SUPPORT_AVX2 SUPPORT_SSE41)
+endif()
 
 target_link_libraries(gadgetron_mricore
         gadgetron_core

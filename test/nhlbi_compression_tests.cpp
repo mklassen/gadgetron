@@ -181,13 +181,15 @@ TEST_P(NHLBICompression, Roundtrip)
     {
         nhlbi_compression_roundtrip_scalar(signal, output_scalar.data(), precision_bits);
 
-        nhlbi_compression_roundtrip_sse(signal, output_sse.data(), precision_bits);
-
-        nhlbi_compression_roundtrip_avx2(signal, output_avx2.data(), precision_bits);
-
         SCOPED_TRACE(std::to_string(precision_bits));
+#ifdef SUPPORT_SSE41
+        nhlbi_compression_roundtrip_sse(signal, output_sse.data(), precision_bits);
         EXPECT_EQ(std::memcmp(output_scalar.data(), output_sse.data(), elements), 0);
+#endif
+#ifdef SUPPORT_AVX2
+        nhlbi_compression_roundtrip_avx2(signal, output_avx2.data(), precision_bits);
         EXPECT_EQ(std::memcmp(output_scalar.data(), output_avx2.data(), elements), 0);
+#endif
     }
 }
 
@@ -243,8 +245,12 @@ INSTANTIATE_TEST_SUITE_P(
         ::testing::Values(4, 5, 7, 8, 9, 15, 16, 17, 21, 25, 31), // bits of precision
         ::testing::Values(
             "scalar"
-            ,"sse" 
+#ifdef SUPPORT_SSE41
+            ,"sse"
+#endif
+#ifdef SUPPORT_AVX2
             ,"avx2"
+#endif
             ))); 
 
 // Verify that the actual error does not exceed requested tolerance
