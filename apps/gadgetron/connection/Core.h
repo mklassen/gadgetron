@@ -9,6 +9,7 @@
 #include "Writer.h"
 #include "Channel.h"
 #include "Context.h"
+#include "log.h"
 
 namespace Gadgetron::Server::Connection {
 
@@ -96,7 +97,10 @@ namespace Gadgetron::Server::Connection {
 
         while (!closed) {
             auto id = Core::IO::read<uint16_t>(stream);
+            GDEBUG_STREAM("process_input(): Gadgetron read message id "<< id<< ", attempting to read and handle "
+                                                                                "message...");
             handlers.at(id)->handle(stream, channel);
+            GDEBUG_STREAM("process_input(): Gadgetron successfully read and handled message with id "<<id);
         }
     }
 

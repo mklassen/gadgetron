@@ -14,6 +14,7 @@
 #include "Context.h"
 #include "MessageID.h"
 #include "Types.h"
+#include "log.h"
 
 using namespace Gadgetron::Core;
 using namespace Gadgetron::Core::IO;
@@ -94,6 +95,7 @@ namespace {
 
         void handle(std::istream &stream, Gadgetron::Core::OutputChannel& ) override {
             std::stringstream config_stream(read_string_from_stream<uint32_t>(stream));
+            //GDEBUG_STREAM("handler read config:\n"<<config_stream.str());
             handle_callback(config_stream);
         }
     };

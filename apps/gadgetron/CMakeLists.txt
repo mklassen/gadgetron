@@ -77,6 +77,7 @@ target_link_libraries(gadgetron
         gadgetron_core_writers
         gadgetron_core_readers
         gadgetron_toolbox_log
+        cfmm_gadgetron_serialization
         Boost::system
         Boost::filesystem
         Boost::program_options
@@ -88,7 +89,6 @@ target_include_directories(gadgetron
         PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_CURRENT_BINARY_DIR})
-
 
 if (REQUIRE_SIGNED_CONFIG)
     target_link_libraries(gadgetron GTBabylon)
