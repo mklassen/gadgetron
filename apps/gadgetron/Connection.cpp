@@ -10,8 +10,11 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #endif
+#include "convertingStreamFromSocket.hpp"
+#include <boost/asio.hpp>
 
 using namespace Gadgetron::Server::Connection;
+using namespace boost::asio;
 
 namespace Gadgetron::Server::Connection {
 
@@ -21,9 +24,11 @@ namespace Gadgetron::Server::Connection {
             const Gadgetron::Core::StreamContext::Paths& paths,
             const Gadgetron::Core::StreamContext::Args& args,
             const std::string& storage_address,
-            std::unique_ptr<std::iostream> stream
+            std::unique_ptr<boost::asio::ip::tcp::socket> psocket
     ) {
-        auto thread = std::thread(handle_connection, std::move(stream), paths, args, storage_address);
+
+        auto thread = std::thread(handle_connection, Gadgetron::Connection::convertingStreamFromSocket(std::move(psocket)),
+                                  paths, args, storage_address);
         thread.detach();
     }
 
@@ -33,11 +38,13 @@ namespace Gadgetron::Server::Connection {
             const Gadgetron::Core::StreamContext::Paths& paths,
             const Gadgetron::Core::StreamContext::Args& args,
             const Gadgetron::Core::StreamContext::StorageAddress& storage_address,
-            std::unique_ptr<std::iostream> stream
+            std::unique_ptr<boost::asio::ip::tcp::socket> psocket
     ) {
+        // converting iostream does not pass across fork nicely, therefore the socket is passed
         auto pid = fork();
         if (pid == 0) {
-            handle_connection(std::move(stream), paths, args, storage_address);
+            handle_connection(Gadgetron::Connection::convertingStreamFromSocket(std::move(psocket)),
+                                      paths, args, storage_address);
             std::quick_exit(0);
         }
         auto listen_for_close = [](auto pid) {int status; waitpid(pid,&status,0);};
