@@ -31,12 +31,14 @@ Server::Server(
 
     acceptor.set_option(boost::asio::socket_base::reuse_address(true));
 
+
     while(true) {
         auto socket = std::make_unique<boost::asio::ip::tcp::socket>(executor);
+
         acceptor.accept(*socket);
 
         GINFO_STREAM("Accepted connection from: " << socket->remote_endpoint().address());
 
-        Connection::handle(paths, args, storage_address, Gadgetron::Connection::stream_from_socket(std::move(socket)));
+        Connection::handle(paths, args, storage_address, std::move(socket));
     }
 }
