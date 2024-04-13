@@ -65,11 +65,11 @@ int main(int argc, char *argv[]) {
                 "Output file for binary data as a result of a local reconstruction")
             ("config_name,c",
                 value<std::string>(),
-                "Filename of the desired gadgetron reconstruction config.")
-            ("parameter",
-                value<std::vector<gadget_parameter>>(),
-                "Parameter to be passed to the gadgetron reconstruction config. Multiple parameters can be passed."
-                "Format: --parameter <name>=<value> --parameter <name>=<value> ...");
+                "Filename of the desired gadgetron reconstruction config.");
+//            ("parameter",
+//                value<std::vector<gadget_parameter>>(),
+//                "Parameter to be passed to the gadgetron reconstruction config. Multiple parameters can be passed.");
+//                "Format: --parameter <name>=<value> --parameter <name>=<value> ...");
 
 
     options_description storage_options("Storage options");
