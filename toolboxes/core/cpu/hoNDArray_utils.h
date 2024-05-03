@@ -204,6 +204,8 @@ namespace Gadgetron {
 
         const hoNDArray<T> permuteArray(dim_permute, const_cast<T*>(in.get_data_ptr()), false);
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wfree-nonheap-object"
         // starting index for in and out array for every permute memcpy operation
         std::vector<size_t> ind_permute_in(dim_permute.size(), 0), ind_in(nDim, 0), ind_out(nDim, 0);
 
@@ -222,6 +224,7 @@ namespace Gadgetron {
             memcpy(o + offset_out, in.begin() + offset_in, sizeof(T)*stride);
         }
     }
+#pragma GCC diagnostic pop
   }
 
   // Expand array to new dimension
