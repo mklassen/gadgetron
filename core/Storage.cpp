@@ -3,7 +3,10 @@
 #include <iterator>
 
 #include <curl/curl.h>
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wstringop-overflow"
 #include <date/date.h>
+#pragma GCC diagnostic pop
 #include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
