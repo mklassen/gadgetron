@@ -41,6 +41,15 @@ namespace {
             node->process(input, output);
         }
 
+        void process(GenericInputChannel input,
+                     OutputChannel output,
+                     ErrorHandler &, ProcessBarrier barrier
+        ) override {
+            auto node = factory();
+            barrier.set_value();
+            node->process(input, output);
+        }
+
         const std::string& name() override {
             return name_;
         }
