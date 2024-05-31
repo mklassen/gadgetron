@@ -19,9 +19,9 @@ using namespace boost::filesystem;
 using namespace boost::program_options;
 using namespace Gadgetron::Server;
 
-using gadget_parameter = std::pair<std::string, std::string>;
+class gadget_parameter : std::pair<std::string, std::string> {
 
-std::istream& operator>>(std::istream& in, gadget_parameter& param) {
+friend std::istream& operator>>(std::istream& in, gadget_parameter& param) {
     std::string token;
     in >> token;
     // parse <key>=<value> into a gadget_parameter
@@ -34,10 +34,11 @@ std::istream& operator>>(std::istream& in, gadget_parameter& param) {
     return in;
 }
 
-std::ostream& operator<<(std::ostream& out, const gadget_parameter& param) {
+friend std::ostream& operator<<(std::ostream& out, const gadget_parameter& param) {
     out << param.first << "=" << param.second;
     return out;
 }
+};
 
 int main(int argc, char *argv[]) {
     options_description gadgetron_options("Allowed options:");
