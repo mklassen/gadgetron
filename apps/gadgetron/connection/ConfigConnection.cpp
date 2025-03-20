@@ -76,7 +76,10 @@ namespace {
                 recon_name = std::string(getenv(recon_name.c_str()));
             }
 
-            boost::filesystem::path filename = paths.gadgetron_home / GADGETRON_CONFIG_PATH / recon_name;
+            boost::filesystem::path filename = recon_name;
+
+            if (!boost::filesystem::is_regular_file(filename))
+                filename = paths.gadgetron_home / GADGETRON_CONFIG_PATH / recon_name;
 
             GDEBUG_STREAM("Reading config file: " << filename);
 
