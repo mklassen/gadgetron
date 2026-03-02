@@ -7,10 +7,16 @@
   <component name="CidrRootsConfiguration">
     <excludeRoots>
       <file path="$PROJECT_DIR$/ace-ismrmrd-toolkit.git" />
+      <file path="$PROJECT_DIR$/build" />
+      <file path="$PROJECT_DIR$/network/ci" />
+      <file path="$PROJECT_DIR$/network/code_style" />
       <file path="$PROJECT_DIR$/network/network.xcodeproj" />
       <file path="$PROJECT_DIR$/network/protocol/cmake-build-debug" />
+      <file path="$PROJECT_DIR$/network/protocol/cmake-build-debug-docker" />
       <file path="$PROJECT_DIR$/network/protocol/cmake-build-debug-system" />
       <file path="$PROJECT_DIR$/network/protocol/cmake-build-release" />
+      <file path="$PROJECT_DIR$/network/protocol/cmake-build-release-docker" />
+      <file path="$PROJECT_DIR$/network/protocol/cmake-build-release-docker-protocol" />
       <file path="$PROJECT_DIR$/network/tests/cmake-build-debug" />
       <file path="$PROJECT_DIR$/network/tests/googletest" />
     </excludeRoots>
@@ -21,5 +27,5 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="WestSettings"><![CDATA[{}]]></component>
+  <component name="WestSettings">{}</component>
 </project>
