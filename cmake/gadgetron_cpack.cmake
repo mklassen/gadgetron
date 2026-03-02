@@ -18,7 +18,7 @@ set(CPACK_DEB_COMPONENT_INSTALL OFF)
 set(CPACK_DEB_PACKAGE_COMPONENT OFF)
 
 # Set dependencies explicitly
-set(CPACK_DEBIAN_PACKAGE_DEPENDS "build-essential, ismrmrd, libfftw3-dev, python-dev, python-numpy, python-psutil, liblapack-dev, libxml2-dev, libxslt-dev, libarmadillo-dev, libace-dev, python-matplotlib, python-libxml2, python-h5py, libboost-all-dev, libhdf5-serial-dev, h5utils, hdf5-tools, libgtest-dev")
+#set(CPACK_DEBIAN_PACKAGE_DEPENDS "build-essential, ismrmrd, libfftw3-dev, python-dev, python-numpy, python-psutil, liblapack-dev, libxml2-dev, libxslt-dev, libarmadillo-dev, libace-dev, python-matplotlib, python-libxml2, python-h5py, libboost-all-dev, libhdf5-serial-dev, h5utils, hdf5-tools, libgtest-dev")
 
 # Where the package metadata are
 set(GADGETRON_CPACK_CFG_FILE "${PROJECT_BINARY_DIR}/cpack_options.cmake")
